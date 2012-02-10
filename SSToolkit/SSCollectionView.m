@@ -790,6 +790,13 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	[dictionary setObject:object forKey:key];
 }
 
+- (void)setSelectForVisibleItems:(BOOL)selected
+{
+  [_visibleItems enumerateObjectsUsingBlock:^(id object, BOOL *stop) {
+    SSCollectionViewItem* item = (SSCollectionViewItem *)object;
+    [item setSelected:selected animated:NO];
+  }];
+}
 
 #pragma mark - UITableViewDataSource
 

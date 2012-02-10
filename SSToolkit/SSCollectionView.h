@@ -265,6 +265,13 @@ typedef enum {
 - (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 /**
+ Sets the selection state for all visible items.
+
+ @param selected `YES` if you want the items to be selected.
+ */
+- (void)setSelectForVisibleItems:(BOOL)selected;
+
+/**
  A Boolean value that determines whether selecting items is enabled.
  
  If the value of this property is `YES`, selecting is enabled, and if it is `NO`, selecting is disabled. The default is
