@@ -109,7 +109,7 @@ static CGFloat kIndicatorSize = 40.0;
 			return;
 		}
 		
-		NSString *dingbat = _successful ? @"✔" : @"✘";
+		NSString *dingbat = _successful ? @"✓" : @"✘";
 		UIFont *dingbatFont = [UIFont systemFontOfSize:60.0f];
 		CGSize dingbatSize = [dingbat sizeWithFont:dingbatFont];
 		CGRect dingbatRect = CGRectMake(roundf((_hudSize.width - dingbatSize.width) / 2.0f),
