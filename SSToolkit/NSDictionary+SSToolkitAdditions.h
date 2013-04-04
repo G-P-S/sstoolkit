@@ -37,6 +37,7 @@
  */
 - (NSString *)stringWithFormEncodedComponents;
 
+
 ///--------------------------
 /// @name Deriving New Arrays
 ///--------------------------
@@ -50,7 +51,8 @@
  
  @return The object returned by the `NSMutableCopying` protocol method `mutableCopyWithZone:`, where the zone is `nil`.
  */
-- (NSMutableDictionary *)deepMutableCopy CF_RETURNS_RETAINED;
+- (NSMutableDictionary *)deepMutableCopy NS_RETURNS_RETAINED;
+
 
 ///--------------
 /// @name Hashing
@@ -75,5 +77,19 @@
  @return The string of the SHA1 sum of the receiver.
  */
 - (NSString *)SHA1Sum;
+
+
+///------------------------
+/// @name Accessing Objects
+///------------------------
+
+/**
+ Returns the object for the specified key or `nil` if the value is `[NSNull null]`.
+ 
+ @param key The key used to look up the object in the receiver.
+ 
+ @return The object for the specified key or `nil` if the value is `[NSNull null]`.
+ */
+- (id)safeObjectForKey:(id)key;
 
 @end

@@ -43,13 +43,20 @@
  */
 - (NSString *)SHA1Sum;
 
+/**
+ Returns a string of the SHA256 sum of the receiver.
+ 
+ @return The string of the SHA256 sum of the receiver.
+ */
+- (NSString *)SHA256Sum;
+
 
 ///-------------------------
 /// @name Comparing Versions
 ///-------------------------
 
 /**
- Returns a comparison result for the reciever and a given `version`.
+ Returns a comparison result for the receiver and a given `version`.
  
  Examples:
  
@@ -59,7 +66,7 @@
  
  @param version A version string to compare to the receiver
  
- @return A comparison result for the reciever and a given `version`
+ @return A comparison result for the receiver and a given `version`
  */
 - (NSComparisonResult)compareToVersionString:(NSString *)version;
 

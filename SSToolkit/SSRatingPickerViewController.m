@@ -14,7 +14,7 @@
 #import "UIScreen+SSToolkitAdditions.h"
 
 @interface SSRatingPickerViewController ()
-@property (nonatomic, retain, readonly) SSRatingPickerScrollView *scrollView;
+@property (nonatomic, strong, readonly) SSRatingPickerScrollView *scrollView;
 @end
 
 @implementation SSRatingPickerViewController
@@ -44,9 +44,7 @@
 #pragma mark - UIViewController
 
 - (void)loadView {
-	SSRatingPickerScrollView *scrollView = [[SSRatingPickerScrollView alloc] initWithFrame:CGRectZero];
-	self.view = scrollView;
-	[scrollView release];
+	self.view = [[SSRatingPickerScrollView alloc] initWithFrame:CGRectZero];
 }
 
 

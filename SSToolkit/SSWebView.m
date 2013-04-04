@@ -38,9 +38,6 @@
 	_delegate = nil;
 	_webView.delegate = nil;
 	[_webView stopLoading];
-	[_webView release];
-	[_lastRequest release];
-	[super dealloc];
 }
 
 
@@ -102,7 +99,6 @@
 		tempMediaPlaybackRequiresUserAction = _webView.mediaPlaybackRequiresUserAction;
 
 		[_webView removeFromSuperview];
-		[_webView release];
 	}
 
 	_webView = [[UIWebView alloc] initWithFrame:CGRectZero];
@@ -117,6 +113,8 @@
 
 	_webView.delegate = self;
 	[self addSubview:_webView];
+    
+	_lastRequest = nil;
 }
 
 
@@ -287,11 +285,15 @@
 
 
 - (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType textEncodingName:(NSString *)encodingName baseURL:(NSURL *)baseURL {
+	_lastRequest = nil;
+    
 	[_webView loadData:data MIMEType:MIMEType textEncodingName:encodingName baseURL:baseURL];
 }
 
 
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL {
+	_lastRequest = nil;
+    
 	if (!baseURL) {
 		baseURL = [NSURL URLWithString:@"http://localhost/"];
 	}
@@ -300,12 +302,13 @@
 
 
 - (void)loadRequest:(NSURLRequest *)aRequest {
+	_lastRequest = nil;
+    
 	[_webView loadRequest:aRequest];
 }
 
 
 - (void)reload {
-	[_lastRequest release];
 	_lastRequest = nil;
 	[_webView reload];
 }
@@ -322,16 +325,17 @@
 
 
 - (UIScrollView *)scrollView {
-#ifndef __IPHONE_5_0
-	for (UIView *view in [_webView subviews]) {
-		if ([view isKindOfClass:[UIScrollView class]]) {
-			return (UIScrollView *)view;
+	if (([[[UIDevice currentDevice] systemVersion] compare:@"5.0"] == NSOrderedAscending)) {
+		for (UIView *view in [_webView subviews]) {
+			if ([view isKindOfClass:[UIScrollView class]]) {
+				return (UIScrollView *)view;
+			}
 		}
+		return nil;
 	}
-	return nil;
-#else
-	return _webView.scrollView;
-#endif
+	else {
+		return _webView.scrollView;
+	}
 }
 
 
@@ -403,8 +407,7 @@
 
 	// Starting a new request
 	if ([[aRequest mainDocumentURL] isEqual:[_lastRequest mainDocumentURL]] == NO) {
-		[_lastRequest release];
-		_lastRequest = [aRequest retain];
+		_lastRequest = aRequest;
 		_testedDOM = NO;
 
 		[self _startLoading];

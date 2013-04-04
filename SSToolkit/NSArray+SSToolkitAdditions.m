@@ -7,6 +7,7 @@
 //
 
 #import "NSArray+SSToolkitAdditions.h"
+#import "NSMutableArray+SSToolkitAdditions.h"
 #import "NSData+SSToolkitAdditions.h"
 
 @interface NSArray (SSToolkitPrivateAdditions)
@@ -25,29 +26,18 @@
 
 
 - (id)randomObject {
-	return [self objectAtIndex:arc4random() % [self count]];
+	return [self objectAtIndex:arc4random_uniform([self count])];
 }
 
-
 - (NSArray *)shuffledArray {
-	
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[self count]];
-	
-	NSMutableArray *copy = [self mutableCopy];
-	while ([copy count] > 0) {
-		NSUInteger index = arc4random() % [copy count];
-		id objectToMove = [copy objectAtIndex:index];
-		[array addObject:objectToMove];
-		[copy removeObjectAtIndex:index];
-	}
-	
-	[copy release];
-	return array;
+    NSMutableArray *array = [self mutableCopy];
+    [array shuffle];
+    return array;
 }
 
 
 - (NSMutableArray *)deepMutableCopy {
-	return (NSMutableArray *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFArrayRef)self, kCFPropertyListMutableContainers);
+	return (__bridge_transfer NSMutableArray *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (__bridge CFArrayRef)self, kCFPropertyListMutableContainers);
 }
 
 

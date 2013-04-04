@@ -38,14 +38,26 @@ static const short _base64DecodingTable[256] = {
 	for (i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
 		[ms appendFormat: @"%02x", (int)(digest[i])];
 	}
-	return [[ms copy] autorelease];
+	return [ms copy];
 }
+
 
 - (NSString *)SHA1Sum {
 	NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
 	uint8_t digest[CC_SHA1_DIGEST_LENGTH];
 	CC_SHA1(self.bytes, self.length, digest);
 	for (NSInteger i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+		[output appendFormat:@"%02x", digest[i]];
+	}
+	return output;
+}
+
+
+- (NSString *)SHA256Sum {
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+	uint8_t digest[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256([self bytes], [self length], digest);
+	for (NSInteger i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
 		[output appendFormat:@"%02x", digest[i]];
 	}
 	return output;
@@ -77,7 +89,7 @@ static const short _base64DecodingTable[256] = {
         output[index + 3] = (i + 2) < length ? _base64EncodingTable[(value >> 0) & 0x3F] : '=';
     }
 	
-    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+    return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
 

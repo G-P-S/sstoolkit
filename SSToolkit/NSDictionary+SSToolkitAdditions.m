@@ -64,7 +64,7 @@
 
 
 - (NSMutableDictionary *)deepMutableCopy {
-	return (NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)self, kCFPropertyListMutableContainers);
+	return (__bridge_transfer NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (__bridge CFDictionaryRef)self, kCFPropertyListMutableContainers);
 }
 
 
@@ -75,6 +75,15 @@
 
 - (NSString *)SHA1Sum {
 	return [[self _prehashData] SHA1Sum];
+}
+
+
+- (id)safeObjectForKey:(id)key {
+	id value = [self valueForKey:key];
+	if (value == [NSNull null]) {
+		return nil;
+	}
+	return value;
 }
 
 @end

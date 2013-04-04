@@ -20,53 +20,38 @@
 
 
 - (void)setTopBorderColor:(UIColor *)topBorderColor {
-	[topBorderColor retain];
-	[_topBorderColor release];
 	_topBorderColor = topBorderColor;
-	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setTopInsetColor:(UIColor *)topInsetColor {
-	[topInsetColor retain];
-	[_topInsetColor release];
 	_topInsetColor = topInsetColor;
-	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBottomInsetColor:(UIColor *)bottomInsetColor {
-	[bottomInsetColor retain];
-	[_bottomInsetColor release];
-	_bottomInsetColor = bottomInsetColor;
-	
+	_bottomInsetColor = bottomInsetColor;	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBottomBorderColor:(UIColor *)bottomBorderColor {
-	[bottomBorderColor retain];
-	[_bottomBorderColor release];
-	_bottomBorderColor = bottomBorderColor;
-	
+	_bottomBorderColor = bottomBorderColor;	
 	[self setNeedsDisplay];
 }
 
 
-#pragma mark - NSObject
+#pragma mark - UIView
 
-- (void)dealloc {
-	[_topBorderColor release];
-	[_topInsetColor release];
-	[_bottomInsetColor release];
-	[_bottomBorderColor release];
-	[super dealloc];
+- (id)initWithFrame:(CGRect)frame {
+	if ((self = [super initWithFrame:frame])) {
+		self.contentMode = UIViewContentModeRedraw;
+	}
+	return self;
 }
 
-
-#pragma mark - UIView
 
 - (void)drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();

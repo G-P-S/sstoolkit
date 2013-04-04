@@ -15,8 +15,6 @@
 
 @implementation SSCollectionViewItem {
 	SSCollectionViewItemStyle _style;
-	SSCollectionView *_collectionView;
-	NSIndexPath *_indexPath;
 }
 
 
@@ -34,10 +32,7 @@
 @synthesize collectionView = _collectionView;
 
 - (void)setBackgroundView:(UIView *)backgroundView {
-	[backgroundView retain];
-	[_backgroundView release];
 	_backgroundView = backgroundView;
-	
 	_backgroundView.hidden = _selected && _selectedBackgroundView;
 	
 	[self insertSubview:backgroundView atIndex:0];
@@ -46,10 +41,7 @@
 
 
 - (void)setSelectedBackgroundView:(UIView *)selectedBackgroundView {
-	[selectedBackgroundView retain];
-	[_selectedBackgroundView release];
-	_selectedBackgroundView = selectedBackgroundView;
-	
+	_selectedBackgroundView = selectedBackgroundView;	
 	_selectedBackgroundView.hidden = !_selected;
 	
 	if (_backgroundView) {
@@ -66,14 +58,6 @@
 
 - (void)dealloc {
 	self.collectionView = nil;
-	[_indexPath release];
-	[_imageView release];
-	[_textLabel release];
-	[_detailTextLabel release];
-	[_backgroundView release];
-	[_selectedBackgroundView release];
-	[_reuseIdentifier release];
-	[super dealloc];
 }
 
 
@@ -131,12 +115,20 @@
 		if (_style != SSCollectionViewItemStyleBlank) {
 			if (_style == SSCollectionViewItemStyleSubtitle) {
 				_detailTextLabel = [[SSLabel alloc] initWithFrame:CGRectZero];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+				_detailTextLabel.textAlignment = NSTextAlignmentCenter;
+#else
 				_detailTextLabel.textAlignment = UITextAlignmentCenter;
+#endif
 				[self addSubview:_detailTextLabel];
 			}
 			
 			_textLabel = [[SSLabel alloc] initWithFrame:CGRectZero];
-			_textLabel.textAlignment = UITextAlignmentCenter;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+            _textLabel.textAlignment = NSTextAlignmentCenter;
+#else
+            _textLabel.textAlignment = UITextAlignmentCenter;
+#endif
 			[self addSubview:_textLabel];
 			
 			_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];

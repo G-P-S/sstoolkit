@@ -22,21 +22,11 @@
 @synthesize placeholderTextColor = _placeholderTextColor;
 
 - (void)setPlaceholderTextColor:(UIColor *)placeholderTextColor {
-	[placeholderTextColor retain];
-	[_placeholderTextColor release];
 	_placeholderTextColor = placeholderTextColor;
 	
 	if (!self.text && self.placeholder) {
 		[self setNeedsDisplay];
 	}
-}
-
-
-#pragma mark - NSObject
-
-- (void)dealloc {
-	[_placeholderTextColor release];
-	[super dealloc];
 }
 
 
@@ -84,7 +74,11 @@
 	}
 	
     [_placeholderTextColor setFill];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+    [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail alignment:self.textAlignment];
+#else
     [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
+#endif
 }
 
 

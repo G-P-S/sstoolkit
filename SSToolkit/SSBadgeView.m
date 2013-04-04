@@ -29,51 +29,37 @@
 @synthesize highlighted = _highlighted;
 
 - (void)setBadgeColor:(UIColor *)badgeColor {
-	[badgeColor retain];
-	[_badgeColor release];
 	_badgeColor = badgeColor;
-	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setHighlightedBadgeColor:(UIColor *)highlightedBadgeColor {
-	[highlightedBadgeColor retain];
-	[_highlightedBadgeColor release];
 	_highlightedBadgeColor = highlightedBadgeColor;
-	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBadgeImage:(UIImage *)badgeImage {
-	[badgeImage retain];
-	[_badgeImage release];
-	_badgeImage = badgeImage;
-	
+	_badgeImage = badgeImage;	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setHighlightedBadgeImage:(UIImage *)highlightedBadgeImage {
-	[highlightedBadgeImage retain];
-	[_highlightedBadgeImage release];
-	_highlightedBadgeImage = highlightedBadgeImage;
-	
+	_highlightedBadgeImage = highlightedBadgeImage;	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
 	_cornerRadius = cornerRadius;
-	
 	[self setNeedsDisplay];
 }
 
 
 - (void)setBadgeAlignment:(SSBadgeViewAlignment)badgeAlignment {
 	_badgeAlignment = badgeAlignment;
-	
 	[self setNeedsDisplay];
 }
 
@@ -81,7 +67,6 @@
 - (void)setHighlighted:(BOOL)highlighted {
 	_highlighted = highlighted;
 	_textLabel.highlighted = highlighted;
-	
 	[self setNeedsDisplay];
 }
 
@@ -90,18 +75,6 @@
 
 + (UIColor *)defaultBadgeColor {
 	return [UIColor colorWithRed:0.541f green:0.596f blue:0.694f alpha:1.0f];
-}
-
-
-#pragma mark - NSObject
-
-- (void)dealloc {
-	[_textLabel release];
-	[_badgeColor release];
-	[_highlightedBadgeColor release];
-	[_badgeImage release];
-	[_highlightedBadgeImage release];
-	[super dealloc];
 }
 
 
@@ -196,7 +169,11 @@
 	_textLabel.textColor = [UIColor whiteColor];
 	_textLabel.highlightedTextColor = [UIColor colorWithRed:0.125f green:0.369f blue:0.871f alpha:1.0f];
 	_textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+	_textLabel.textAlignment = NSTextAlignmentCenter;
+#else
 	_textLabel.textAlignment = UITextAlignmentCenter;
+#endif
 	
 	self.badgeColor = [[self class] defaultBadgeColor];
 	self.highlightedBadgeColor = [UIColor whiteColor];
